@@ -63,4 +63,12 @@ You'll link it to your host (which is your OpenWrt router) which is then having 
 When you click on the discovered items, you should get this:
 ![Zabbix host items](./images/zabbix-items.png)
 
+Set your filter to your host and select `Application: OpenWRT clients data` for tags.
+![Zabbix host filters](./images/zabbix-openwrt-client-filter.png)
+
+You'll grt a list of all connected clients.
+![OpenWrt client list](./images/zabbix-openwrt-clients.png)
+
 Now you have achieved the data collection and you can create dashboards as you please.
+
+The next step is have Grafana installed somewhere and install the Zabbix data source to it https://grafana.com/docs/plugins/alexanderzobnin-zabbix-app/latest/configuration/ and have beautiful graphs.
