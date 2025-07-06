@@ -1,10 +1,12 @@
 
-## Zabbix Opewrt Clients monitor
+## Zabbix OpenWrt Clients monitor
 
 The purpose of this repository is to set up a data collector for OpenWrt clients, using zabbix-agent.
 It gets download total bytes, upload total bytes, upload total packets, download total packets and total connections for every network device, ie client.
 
 It doesn't contain any alert, the goal is only to get data, for example to create graphs.
+
+![Zabbix Dashboard](./images/zabbix-dashboard.png)
 
 ### Prerequisites
 
