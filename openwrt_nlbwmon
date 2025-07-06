@@ -1,0 +1,2 @@
+UserParameter=owrt.clients.network.discovery, /etc/zabbix_agentd.conf.d/scripts/owrt_client_discovery.lua
+UserParameter=owrt.clients.network.detail[*], /etc/zabbix_agentd.conf.d/scripts/owrt_client_detail.lua $1
