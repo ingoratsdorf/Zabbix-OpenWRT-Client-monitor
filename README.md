@@ -52,3 +52,15 @@ Note: The first line is optional and all it does is to avoid having a log entry 
 * import the `zbx_export_templates.yaml` file into your Zabbix server, and link it to your OpenWrt router.
 
 For the last step, please refer to the Zabbix server documentation.
+
+What you'll get in Zabbix after the template import is approximately this:
+![Zabbix template](./images/zabbix-template.png)
+
+You'll link it to your host (which is your OpenWrt router) which is then having both the stndard linux template and the OpenWrt client template assigned 
+`Linux by Zabbix agent, OpenWRT client network`:
+![Zabbix host](./images/zabbix-host.png)
+
+When you click on the discovered items, you should get this:
+![Zabbix host items](./images/zabbix-items.png)
+
+Now you have achieved the data collection and you can create dashboards as you please.
