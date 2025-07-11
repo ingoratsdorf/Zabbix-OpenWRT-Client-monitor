@@ -1,6 +1,33 @@
 #!/usr/bin/env lua
 
+local json = require("cjson")  -- Requires cjson, opkg install lua-cjson
+local cache_file_path = "/tmp/owrt_client_discovery.maclist.json"
+local user_list_path = "./owrt_client_discovery.maclist.txt"
 local json_entries = {}
+
+-- Load hostname cache
+local function load_cache()
+  local cache = {}
+  local f = io.open(cache_file_path, "r")
+  if f then
+    local content = f:read("*a")
+    f:close()
+    cache = json.decode(content) or {}
+  end
+  return cache
+end
+
+-- Save hostname cache
+local function save_cache(cache)
+  local f = io.open(cache_file_path, "w")
+  if f then
+    f:write(json.encode(cache))
+    f:close()
+  end
+end
+
+-- load local cache
+local hostname_cache = load_cache()
 
 -- Load DHCP leases into a lookup table
 local leases = {}
@@ -15,7 +42,8 @@ if lease_file then
   lease_file:close()
 end
 
--- try the userde.txt file for custom hostnames
+
+-- try the owrt_client_discovery.maclist.txt file for custom hostnames
 -- this file should contain lines like:
 -- 00:11:22:33:44:55 mydevice
 -- where the first part is the MAC address and the second part is the hostname
@@ -24,7 +52,7 @@ end
 -- the file should be placed in the same directory as this script
 -- and should be readable by the user running this script
 local hosts = {}
-local userdef_file = io.open("userdef.txt", "r")
+local userdef_file = io.open(user_list_path, "r")
 if userdef_file then
   for line in userdef_file:lines() do
     local mac, name = line:match("^(%S+)%s+(%S+)")
@@ -64,6 +92,11 @@ for i = 2, #lines do
   -- try userdef host mappings first
   local resolved = hosts[mac]
 
+  -- Use cache if available
+  if not resolved and hostname_cache[mac] then
+    resolved = hostname_cache[mac]
+  end
+
   -- Try to resolve hostname via leases file next
   if not resolved and ip ~= "" then
     resolved = leases[ip] 
@@ -82,6 +115,9 @@ for i = 2, #lines do
     hostname = mac
   end
 
+  -- add discovered hostname to the cache
+  hostname_cache[mac] = resolved
+
   local entry = string.format(
     '{"{#NETWORK_CLIENT}":"%s","{#MACADDR}":"%s","{#IPADDR}":"%s"}',
     hostname, mac, ip
@@ -89,5 +125,8 @@ for i = 2, #lines do
   table.insert(json_entries, entry)
 end
 
+-- Save updated cache
+save_cache(hostname_cache)
+
 -- Output JSON
-print('{"data":[' .. table.concat(json_entries, ",") .. ']}')
+print('{"data":[' .. table.concat(json_entries, ",\n") .. ']}')
