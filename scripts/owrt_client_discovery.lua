@@ -55,7 +55,7 @@ local hosts = {}
 local userdef_file = io.open(user_list_path, "r")
 if userdef_file then
   for line in userdef_file:lines() do
-    local mac, name = line:match("^(%S+)%s+(%S+)")
+    local mac, name = line:match("^(%x+:%x+:%x+:%x+:%x+:%x+)%s+(%S+)")
     if mac and name then
       hosts[string.lower(mac)] = name
     end
