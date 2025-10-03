@@ -82,3 +82,7 @@ You'll grt a list of all connected clients.
 Now you have achieved the data collection and you can create dashboards as you please.
 
 The next step is have Grafana installed somewhere and install the Zabbix data source to it https://grafana.com/docs/plugins/alexanderzobnin-zabbix-app/latest/configuration/ and have beautiful graphs.
+
+### Debug
+
+The agent on owrt can be queried by `zabbix_agentd -t 'owrt.clients.network.detail[YOUR_MAC,2]'`. It should output something like this `owrt.clients.network.detail[YOUR_MAC,2] [t|40]`.
