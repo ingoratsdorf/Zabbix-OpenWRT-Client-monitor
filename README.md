@@ -33,6 +33,7 @@ You must have luci-app-nlbwmon, lua and sudo installed on your OpenWRT device (A
     opkg install luci-app-nlbwmon
     opkg install sudo
     opkg install lua
+    opkg install lua-cjson
 ```
 Explanation:
 
