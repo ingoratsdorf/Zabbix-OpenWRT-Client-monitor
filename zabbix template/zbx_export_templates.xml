@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>7.4</version>
+    <template_groups>
+        <template_group>
+            <uuid>b34fafed23b346898910bda46573a48e</uuid>
+            <name>OpenWRT</name>
+        </template_group>
+        <template_group>
+            <uuid>7df96b18c230490a9a0a9e2307226338</uuid>
+            <name>Templates</name>
+        </template_group>
+    </template_groups>
+    <templates>
+        <template>
+            <uuid>46872d59c52f4f36b8a33a63adbc0a81</uuid>
+            <template>OpenWRT client network</template>
+            <name>OpenWRT client network</name>
+            <groups>
+                <group>
+                    <name>OpenWRT</name>
+                </group>
+                <group>
+                    <name>Templates</name>
+                </group>
+            </groups>
+            <discovery_rules>
+                <discovery_rule>
+                    <uuid>1f0f9b57038142778f93dab93919a85a</uuid>
+                    <name>OpenWRT NLBW clients discovery</name>
+                    <key>owrt.clients.network.discovery</key>
+                    <delay>10m</delay>
+                    <lifetime>30d</lifetime>
+                    <enabled_lifetime_type>DISABLE_NEVER</enabled_lifetime_type>
+                    <description>Discovers all NLBWMon client monitored by nlbwmon.
+Tested on openwrt-24.10</description>
+                    <item_prototypes>
+                        <item_prototype>
+                            <uuid>3b86da3f4bf54af78e2ca721d8d782be</uuid>
+                            <name>Download bytes for {#NETWORK_CLIENT}</name>
+                            <type>DEPENDENT</type>
+                            <key>owrt.clients.network.bytes_down[{#MACADDR}]</key>
+                            <history>30d</history>
+                            <value_type>FLOAT</value_type>
+                            <units>B</units>
+                            <description>Counts the number of bytes downloaded by {#NETWORK_CLIENT}</description>
+                            <preprocessing>
+                                <step>
+                                    <type>JAVASCRIPT</type>
+                                    <parameters>
+                                        <parameter>var words = value.match(/\S+/gi)
+return(Number(words[2]));</parameter>
+                                    </parameters>
+                                </step>
+                                <step>
+                                    <type>SIMPLE_CHANGE</type>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>owrt.clients.network.detail[{#MACADDR}]</key>
+                            </master_item>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>OpenWRT clients data</value>
+                                </tag>
+                            </tags>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>04b5a96860cf4937af5ebe85d87373c7</uuid>
+                            <name>Upload bytes for {#NETWORK_CLIENT}</name>
+                            <type>DEPENDENT</type>
+                            <key>owrt.clients.network.bytes_up[{#MACADDR}]</key>
+                            <history>30d</history>
+                            <value_type>FLOAT</value_type>
+                            <units>B</units>
+                            <description>Counts the number of bytes uploaded by {#NETWORK_CLIENT}</description>
+                            <preprocessing>
+                                <step>
+                                    <type>JAVASCRIPT</type>
+                                    <parameters>
+                                        <parameter>var words = value.match(/\S+/gi)
+return(Number(words[4]));</parameter>
+                                    </parameters>
+                                </step>
+                                <step>
+                                    <type>SIMPLE_CHANGE</type>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>owrt.clients.network.detail[{#MACADDR}]</key>
+                            </master_item>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>OpenWRT clients data</value>
+                                </tag>
+                            </tags>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>2441cfb62a274124a8f8fcdf6a8bb1ff</uuid>
+                            <name>Connections for {#NETWORK_CLIENT}</name>
+                            <type>DEPENDENT</type>
+                            <key>owrt.clients.network.connections[{#MACADDR}]</key>
+                            <history>30d</history>
+                            <value_type>FLOAT</value_type>
+                            <description>Counts the number of connections of {#NETWORK_CLIENT}</description>
+                            <preprocessing>
+                                <step>
+                                    <type>JAVASCRIPT</type>
+                                    <parameters>
+                                        <parameter>var words = value.match(/\S+/gi)
+return(Number(words[1]));</parameter>
+                                    </parameters>
+                                </step>
+                                <step>
+                                    <type>SIMPLE_CHANGE</type>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>owrt.clients.network.detail[{#MACADDR}]</key>
+                            </master_item>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>OpenWRT clients data</value>
+                                </tag>
+                            </tags>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>3c66c20504fa43f18c794b893d37f792</uuid>
+                            <name>NLBW Data for {#NETWORK_CLIENT}</name>
+                            <key>owrt.clients.network.detail[{#MACADDR}]</key>
+                            <delay>2m</delay>
+                            <history>1d</history>
+                            <value_type>TEXT</value_type>
+                            <description>Retrieve all data for the client</description>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>OpenWRT clients data</value>
+                                </tag>
+                            </tags>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>afb8b4c863fc4f3d8cd8387f0312ba35</uuid>
+                            <name>Hostname for {#MACADDR} ({#NETWORK_CLIENT})</name>
+                            <type>DEPENDENT</type>
+                            <key>owrt.clients.network.hostname[{#MACADDR}]</key>
+                            <history>30d</history>
+                            <value_type>TEXT</value_type>
+                            <description>The current hostname for MAC {#MACADDR} - this may be different from the original one if it was not available or could not be resolved at the time</description>
+                            <preprocessing>
+                                <step>
+                                    <type>JAVASCRIPT</type>
+                                    <parameters>
+                                        <parameter>var words = value.match(/\S+/gi)
+return(words[6]);</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>owrt.clients.network.detail[{#MACADDR}]</key>
+                            </master_item>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>OpenWRT clients data</value>
+                                </tag>
+                            </tags>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>03c1ea3f12c1480fabe8d542528501ad</uuid>
+                            <name>Download packets for {#NETWORK_CLIENT}</name>
+                            <type>DEPENDENT</type>
+                            <key>owrt.clients.network.packets_down[{#MACADDR}]</key>
+                            <history>30d</history>
+                            <value_type>FLOAT</value_type>
+                            <description>Counts the number of packets downloaded by {#NETWORK_CLIENT}</description>
+                            <preprocessing>
+                                <step>
+                                    <type>JAVASCRIPT</type>
+                                    <parameters>
+                                        <parameter>var words = value.match(/\S+/gi)
+return(Number(words[3]));</parameter>
+                                    </parameters>
+                                </step>
+                                <step>
+                                    <type>SIMPLE_CHANGE</type>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>owrt.clients.network.detail[{#MACADDR}]</key>
+                            </master_item>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>OpenWRT clients data</value>
+                                </tag>
+                            </tags>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>972b96086e6e418c862fd9ecf4255225</uuid>
+                            <name>Upload packets for {#NETWORK_CLIENT}</name>
+                            <type>DEPENDENT</type>
+                            <key>owrt.clients.network.packets_up[{#MACADDR}]</key>
+                            <history>30d</history>
+                            <value_type>FLOAT</value_type>
+                            <description>Counts the number of packets uploaded by {#NETWORK_CLIENT}</description>
+                            <preprocessing>
+                                <step>
+                                    <type>JAVASCRIPT</type>
+                                    <parameters>
+                                        <parameter>var words = value.match(/\S+/gi)
+return(Number(words[5]));</parameter>
+                                    </parameters>
+                                </step>
+                                <step>
+                                    <type>SIMPLE_CHANGE</type>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>owrt.clients.network.detail[{#MACADDR}]</key>
+                            </master_item>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>OpenWRT clients data</value>
+                                </tag>
+                            </tags>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>1fbefb4e61884ebcb985d32d4ee39d41</uuid>
+                            <name>Download rate for {#NETWORK_CLIENT}</name>
+                            <type>DEPENDENT</type>
+                            <key>owrt.clients.network.rate_down[{#MACADDR}]</key>
+                            <history>30d</history>
+                            <value_type>FLOAT</value_type>
+                            <units>Bps</units>
+                            <description>Download rate by {#NETWORK_CLIENT}</description>
+                            <preprocessing>
+                                <step>
+                                    <type>JAVASCRIPT</type>
+                                    <parameters>
+                                        <parameter>var words = value.match(/\S+/gi)
+return(Number(words[2]));</parameter>
+                                    </parameters>
+                                </step>
+                                <step>
+                                    <type>CHANGE_PER_SECOND</type>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>owrt.clients.network.detail[{#MACADDR}]</key>
+                            </master_item>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>OpenWRT clients data</value>
+                                </tag>
+                            </tags>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>2b3f7a564a3149139cd3775ab7df96f3</uuid>
+                            <name>Upload rate for {#NETWORK_CLIENT}</name>
+                            <type>DEPENDENT</type>
+                            <key>owrt.clients.network.rate_up[{#MACADDR}]</key>
+                            <history>30d</history>
+                            <value_type>FLOAT</value_type>
+                            <units>Bps</units>
+                            <description>Send rate {#NETWORK_CLIENT}</description>
+                            <preprocessing>
+                                <step>
+                                    <type>JAVASCRIPT</type>
+                                    <parameters>
+                                        <parameter>var words = value.match(/\S+/gi)
+return(Number(words[4]));</parameter>
+                                    </parameters>
+                                </step>
+                                <step>
+                                    <type>CHANGE_PER_SECOND</type>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>owrt.clients.network.detail[{#MACADDR}]</key>
+                            </master_item>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>OpenWRT clients data</value>
+                                </tag>
+                            </tags>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+            </discovery_rules>
+            <tags>
+                <tag>
+                    <tag>target</tag>
+                    <value>openwrt</value>
+                </tag>
+            </tags>
+        </template>
+    </templates>
+</zabbix_export>

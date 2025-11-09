@@ -1,0 +1,193 @@
+zabbix_export:
+  version: '7.4'
+  template_groups:
+    - uuid: b34fafed23b346898910bda46573a48e
+      name: OpenWRT
+    - uuid: 7df96b18c230490a9a0a9e2307226338
+      name: Templates
+  templates:
+    - uuid: 46872d59c52f4f36b8a33a63adbc0a81
+      template: 'OpenWRT client network'
+      name: 'OpenWRT client network'
+      groups:
+        - name: OpenWRT
+        - name: Templates
+      discovery_rules:
+        - uuid: 1f0f9b57038142778f93dab93919a85a
+          name: 'OpenWRT NLBW clients discovery'
+          key: owrt.clients.network.discovery
+          delay: 10m
+          lifetime: 30d
+          enabled_lifetime_type: DISABLE_NEVER
+          description: |
+            Discovers all NLBWMon client monitored by nlbwmon.
+            Tested on openwrt-24.10
+          item_prototypes:
+            - uuid: 3b86da3f4bf54af78e2ca721d8d782be
+              name: 'Download bytes for {#NETWORK_CLIENT}'
+              type: DEPENDENT
+              key: 'owrt.clients.network.bytes_down[{#MACADDR}]'
+              history: 30d
+              value_type: FLOAT
+              units: B
+              description: 'Counts the number of bytes downloaded by {#NETWORK_CLIENT}'
+              preprocessing:
+                - type: JAVASCRIPT
+                  parameters:
+                    - |
+                      var words = value.match(/\S+/gi)
+                      return(Number(words[2]));
+                - type: SIMPLE_CHANGE
+              master_item:
+                key: 'owrt.clients.network.detail[{#MACADDR}]'
+              tags:
+                - tag: Application
+                  value: 'OpenWRT clients data'
+            - uuid: 04b5a96860cf4937af5ebe85d87373c7
+              name: 'Upload bytes for {#NETWORK_CLIENT}'
+              type: DEPENDENT
+              key: 'owrt.clients.network.bytes_up[{#MACADDR}]'
+              history: 30d
+              value_type: FLOAT
+              units: B
+              description: 'Counts the number of bytes uploaded by {#NETWORK_CLIENT}'
+              preprocessing:
+                - type: JAVASCRIPT
+                  parameters:
+                    - |
+                      var words = value.match(/\S+/gi)
+                      return(Number(words[4]));
+                - type: SIMPLE_CHANGE
+              master_item:
+                key: 'owrt.clients.network.detail[{#MACADDR}]'
+              tags:
+                - tag: Application
+                  value: 'OpenWRT clients data'
+            - uuid: 2441cfb62a274124a8f8fcdf6a8bb1ff
+              name: 'Connections for {#NETWORK_CLIENT}'
+              type: DEPENDENT
+              key: 'owrt.clients.network.connections[{#MACADDR}]'
+              history: 30d
+              value_type: FLOAT
+              description: 'Counts the number of connections of {#NETWORK_CLIENT}'
+              preprocessing:
+                - type: JAVASCRIPT
+                  parameters:
+                    - |
+                      var words = value.match(/\S+/gi)
+                      return(Number(words[1]));
+                - type: SIMPLE_CHANGE
+              master_item:
+                key: 'owrt.clients.network.detail[{#MACADDR}]'
+              tags:
+                - tag: Application
+                  value: 'OpenWRT clients data'
+            - uuid: 3c66c20504fa43f18c794b893d37f792
+              name: 'NLBW Data for {#NETWORK_CLIENT}'
+              key: 'owrt.clients.network.detail[{#MACADDR}]'
+              delay: 2m
+              history: 1d
+              value_type: TEXT
+              description: 'Retrieve all data for the client'
+              tags:
+                - tag: Application
+                  value: 'OpenWRT clients data'
+            - uuid: afb8b4c863fc4f3d8cd8387f0312ba35
+              name: 'Hostname for {#MACADDR} ({#NETWORK_CLIENT})'
+              type: DEPENDENT
+              key: 'owrt.clients.network.hostname[{#MACADDR}]'
+              history: 30d
+              value_type: TEXT
+              description: 'The current hostname for MAC {#MACADDR} - this may be different from the original one if it was not available or could not be resolved at the time'
+              preprocessing:
+                - type: JAVASCRIPT
+                  parameters:
+                    - |
+                      var words = value.match(/\S+/gi)
+                      return(words[6]);
+              master_item:
+                key: 'owrt.clients.network.detail[{#MACADDR}]'
+              tags:
+                - tag: Application
+                  value: 'OpenWRT clients data'
+            - uuid: 03c1ea3f12c1480fabe8d542528501ad
+              name: 'Download packets for {#NETWORK_CLIENT}'
+              type: DEPENDENT
+              key: 'owrt.clients.network.packets_down[{#MACADDR}]'
+              history: 30d
+              value_type: FLOAT
+              description: 'Counts the number of packets downloaded by {#NETWORK_CLIENT}'
+              preprocessing:
+                - type: JAVASCRIPT
+                  parameters:
+                    - |
+                      var words = value.match(/\S+/gi)
+                      return(Number(words[3]));
+                - type: SIMPLE_CHANGE
+              master_item:
+                key: 'owrt.clients.network.detail[{#MACADDR}]'
+              tags:
+                - tag: Application
+                  value: 'OpenWRT clients data'
+            - uuid: 972b96086e6e418c862fd9ecf4255225
+              name: 'Upload packets for {#NETWORK_CLIENT}'
+              type: DEPENDENT
+              key: 'owrt.clients.network.packets_up[{#MACADDR}]'
+              history: 30d
+              value_type: FLOAT
+              description: 'Counts the number of packets uploaded by {#NETWORK_CLIENT}'
+              preprocessing:
+                - type: JAVASCRIPT
+                  parameters:
+                    - |
+                      var words = value.match(/\S+/gi)
+                      return(Number(words[5]));
+                - type: SIMPLE_CHANGE
+              master_item:
+                key: 'owrt.clients.network.detail[{#MACADDR}]'
+              tags:
+                - tag: Application
+                  value: 'OpenWRT clients data'
+            - uuid: 1fbefb4e61884ebcb985d32d4ee39d41
+              name: 'Download rate for {#NETWORK_CLIENT}'
+              type: DEPENDENT
+              key: 'owrt.clients.network.rate_down[{#MACADDR}]'
+              history: 30d
+              value_type: FLOAT
+              units: Bps
+              description: 'Download rate by {#NETWORK_CLIENT}'
+              preprocessing:
+                - type: JAVASCRIPT
+                  parameters:
+                    - |
+                      var words = value.match(/\S+/gi)
+                      return(Number(words[2]));
+                - type: CHANGE_PER_SECOND
+              master_item:
+                key: 'owrt.clients.network.detail[{#MACADDR}]'
+              tags:
+                - tag: Application
+                  value: 'OpenWRT clients data'
+            - uuid: 2b3f7a564a3149139cd3775ab7df96f3
+              name: 'Upload rate for {#NETWORK_CLIENT}'
+              type: DEPENDENT
+              key: 'owrt.clients.network.rate_up[{#MACADDR}]'
+              history: 30d
+              value_type: FLOAT
+              units: Bps
+              description: 'Send rate {#NETWORK_CLIENT}'
+              preprocessing:
+                - type: JAVASCRIPT
+                  parameters:
+                    - |
+                      var words = value.match(/\S+/gi)
+                      return(Number(words[4]));
+                - type: CHANGE_PER_SECOND
+              master_item:
+                key: 'owrt.clients.network.detail[{#MACADDR}]'
+              tags:
+                - tag: Application
+                  value: 'OpenWRT clients data'
+      tags:
+        - tag: target
+          value: openwrt
