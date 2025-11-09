@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>5.0</version>
+    <date>2020-10-04T05:47:39Z</date>
+    <groups>
+        <group>
+            <name>Templates</name>
+        </group>
+    </groups>
+    <templates>
+        <template>
+            <template>Openwrt clients network</template>
+            <name>Openwrt clients network</name>
+            <groups>
+                <group>
+                    <name>Templates</name>
+                </group>
+            </groups>
+            <applications>
+                <application>
+                    <name>OWRT clients data</name>
+                </application>
+            </applications>
+            <discovery_rules>
+                <discovery_rule>
+                    <name>OWRT clients discovery</name>
+                    <key>owrt.clients.network.discovery</key>
+                    <item_prototypes>
+                        <item_prototype>
+                            <name>Active Connections for {#NETWORK_CLIENT}</name>
+                            <key>owrt.clients.network.detail[{#MACADDR},2]</key>
+                            <delay>2m</delay>
+                            <applications>
+                                <application>
+                                    <name>OWRT clients data</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Download bytes for {#NETWORK_CLIENT}</name>
+                            <key>owrt.clients.network.detail[{#MACADDR},3]</key>
+                            <delay>2m</delay>
+                            <applications>
+                                <application>
+                                    <name>OWRT clients data</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Download packets for {#NETWORK_CLIENT}</name>
+                            <key>owrt.clients.network.detail[{#MACADDR},4]</key>
+                            <delay>2m</delay>
+                            <applications>
+                                <application>
+                                    <name>OWRT clients data</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Upload bytes for {#NETWORK_CLIENT}</name>
+                            <key>owrt.clients.network.detail[{#MACADDR},5]</key>
+                            <delay>2m</delay>
+                            <applications>
+                                <application>
+                                    <name>OWRT clients data</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Upload packets for {#NETWORK_CLIENT}</name>
+                            <key>owrt.clients.network.detail[{#MACADDR},6]</key>
+                            <delay>2m</delay>
+                            <applications>
+                                <application>
+                                    <name>OWRT clients data</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+            </discovery_rules>
+        </template>
+    </templates>
+</zabbix_export>
