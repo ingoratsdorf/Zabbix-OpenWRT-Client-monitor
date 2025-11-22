@@ -79,3 +79,7 @@ You'll grt a list of all connected clients.
 Now you have achieved the data collection and you can create dashboards as you please.
 
 The next step is have Grafana installed somewhere and install the Zabbix data source to it https://grafana.com/docs/plugins/alexanderzobnin-zabbix-app/latest/configuration/ and have beautiful graphs.
+
+# Other projects that may interest you
+
+Since you are using OpenWRT and NLBWMon, you might be interested in [OpenWRT NLBWMon to InfluxDB3](https://github.com/ingoratsdorf/OpenWRT-NLBWMon-2-Influxdb3).
