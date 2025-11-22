@@ -30,9 +30,7 @@ Configure the agent to work with your Zabbix server. Typically, that involves se
 You must have luci-app-nlbwmon, lua and sudo installed on your OpenWRT device (Again, use a terminal or the browser UI):
 ```
     opkg update
-    opkg install luci-app-nlbwmon
-    opkg install sudo
-    opkg install lua
+    opkg install luci-app-nlbwmon sudo lua lua-cjson
 ```
 Explanation:
 
